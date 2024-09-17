@@ -1,4 +1,6 @@
-export default function fizzBuzz(input: number): string {
+export default function fizzBuzz(input: any): string {
+  if(typeof input !== 'number') throw new Error('Invalid argument');
+  
   if(input < 0) throw new Error('The number is too small')
   if(input > 100) throw new Error('The number is too big')
   
