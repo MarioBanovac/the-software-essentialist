@@ -10,4 +10,9 @@ describe('palindrome checker', () => {
     const palindromeChecker = new PalindromeChecker()
     expect(palindromeChecker.isAPalindrome(word)).toBe(expected)
   })
+  
+  test('should be able to detect palindromes no matter the casing', () => { 
+    const palindromeChecker = new PalindromeChecker()
+    expect(palindromeChecker.isAPalindrome('Mom')).toBe(true)
+  })
 })
