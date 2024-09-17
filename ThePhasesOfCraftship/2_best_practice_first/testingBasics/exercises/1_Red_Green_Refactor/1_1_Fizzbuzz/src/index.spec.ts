@@ -40,4 +40,8 @@ describe("fizzbuzz", () => {
   test("for numbers smaller than 0 an error is thrown", () => {
     expect(() => fizzBuzz(-1)).toThrowError('The number is too small')
   });
+  
+  test("for inputs that are not numbers an error is thrown", () => {
+    expect(() => fizzBuzz([])).toThrowError('Invalid argument')
+  });
 });
