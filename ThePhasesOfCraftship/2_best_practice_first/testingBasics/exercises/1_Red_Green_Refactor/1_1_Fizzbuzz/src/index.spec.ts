@@ -32,4 +32,8 @@ describe("fizzbuzz", () => {
   test("for input 45 the output is FizzBuzz", () => {
     expect(fizzBuzz(45)).toBe("FizzBuzz");
   });
+  
+  test("for numbers larger than 100 an error is thrown", () => {
+    expect(() => fizzBuzz(101)).toThrowError('The number is too big')
+  });
 });
