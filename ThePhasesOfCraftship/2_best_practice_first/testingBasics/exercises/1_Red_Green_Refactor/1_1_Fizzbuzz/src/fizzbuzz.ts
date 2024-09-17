@@ -1,4 +1,5 @@
 export default function fizzBuzz(input: number): string {
+  if(input < 0) throw new Error('The number is too small')
   if(input > 100) throw new Error('The number is too big')
   
   if (input % 15 === 0) return "FizzBuzz";
