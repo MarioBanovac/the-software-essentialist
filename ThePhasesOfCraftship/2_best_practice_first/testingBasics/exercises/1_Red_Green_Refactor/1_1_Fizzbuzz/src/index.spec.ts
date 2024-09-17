@@ -36,4 +36,8 @@ describe("fizzbuzz", () => {
   test("for numbers larger than 100 an error is thrown", () => {
     expect(() => fizzBuzz(101)).toThrowError('The number is too big')
   });
+  
+  test("for numbers smaller than 0 an error is thrown", () => {
+    expect(() => fizzBuzz(-1)).toThrowError('The number is too small')
+  });
 });
