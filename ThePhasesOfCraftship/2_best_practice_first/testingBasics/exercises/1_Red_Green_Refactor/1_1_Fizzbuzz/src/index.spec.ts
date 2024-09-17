@@ -8,9 +8,9 @@ describe("fizzbuzz", () => {
   test.each([[3], [9], [42]])("for input %i the output is Fizz", (input) => {
     expect(fizzBuzz(input)).toBe("Fizz");
   });
-
-  test("for input 5 the output is Buzz", () => {
-    expect(fizzBuzz(5)).toBe("Buzz");
+  
+  test.each([[5], [20], [40]])("for input %i the output is Buzz", (input) => {
+    expect(fizzBuzz(input)).toBe("Buzz");
   });
 
   test("for input 15 the output is FizzBuzz", () => {
