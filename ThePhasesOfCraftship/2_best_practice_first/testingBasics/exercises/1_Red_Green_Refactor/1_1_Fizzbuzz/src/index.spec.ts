@@ -20,4 +20,8 @@ describe("fizzbuzz", () => {
   test("for input 9 the output is Fizz", () => {
     expect(fizzBuzz(9)).toBe("Fizz");
   });
+  
+  test("for input 43 the output is 43", () => {
+    expect(fizzBuzz(43)).toBe("43");
+  });
 });
