@@ -4,7 +4,7 @@ export interface IPalindromeChecker {
 
 export default class PalindromeChecker implements IPalindromeChecker {
   isAPalindrome(word: string) {
-    const reverseWord = word.split('').reverse().join('')
-    return word == reverseWord
+    const reverseWord = word.split('').reverse().join('').toLowerCase()
+    return word.toLowerCase() == reverseWord
   }
 }
