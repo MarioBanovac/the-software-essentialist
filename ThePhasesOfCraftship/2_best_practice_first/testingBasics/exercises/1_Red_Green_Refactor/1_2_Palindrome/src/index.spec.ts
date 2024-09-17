@@ -10,6 +10,8 @@ describe("palindrome checker", () => {
     ["eye", true],
     ["mom", true],
     ["wow", true],
+    ["RaCeCaR", true],
+    ["KAYAk", true]
   ])("should be able to detect that a %s is a palindrome", (word, expected) => {
     expect(palindromeChecker.isAPalindrome(word)).toBe(expected);
   });
@@ -24,8 +26,4 @@ describe("palindrome checker", () => {
       expect(palindromeChecker.isAPalindrome(word)).toBe(expected);
     }
   );
-
-  test("should be able to detect palindromes no matter the casing", () => {
-    expect(palindromeChecker.isAPalindrome("Mom")).toBe(true);
-  });
 });
