@@ -1,9 +1,10 @@
 export interface IPalindromeChecker {
-  isAPalindrome: (string: string) => boolean
+  isAPalindrome: (word: string) => boolean
 }
 
 export default class PalindromeChecker implements IPalindromeChecker {
-  isAPalindrome(string: string) {
-    return true
+  isAPalindrome(word: string) {
+    const reverseWord = word.split('').reverse().join('')
+    return word === reverseWord
   }
 }

@@ -1,8 +1,8 @@
 import PalindromeChecker from "."
 
 describe('palindrome checker', () => {
-  test('should be able to detect that a string is a palindrome', () => {
+  test.each([['eye', true], ['mom', true], ['wow', true]])('should be able to detect that a %s is a palindrome', (input, expected) => {
     const palindromeChecker = new PalindromeChecker()
-    expect(palindromeChecker.isAPalindrome('eye')).toBe(true)
+    expect(palindromeChecker.isAPalindrome(input)).toBe(expected)
   })
 })
