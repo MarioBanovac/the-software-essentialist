@@ -16,11 +16,11 @@ describe("fizzbuzz", () => {
   test.each([[15], [45], [90]])("for input %i the output is FizzBuzz", (input) => {
     expect(fizzBuzz(input)).toBe("FizzBuzz");
   });
-
-
-  test("for input 43 the output is 43", () => {
-    expect(fizzBuzz(43)).toBe("43");
+  
+  test.each([[2, "2"], [17, "17"], [26, "26"]])("for input %i the output is %p", (input) => {
+    expect(fizzBuzz(input)).toBe(input.toString());
   });
+
 
   test("for numbers larger than 100 an error is thrown", () => {
     expect(() => fizzBuzz(101)).toThrowError("The number is too big");
