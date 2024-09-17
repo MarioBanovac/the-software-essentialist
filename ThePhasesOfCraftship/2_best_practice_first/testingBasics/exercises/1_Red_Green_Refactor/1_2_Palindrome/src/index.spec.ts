@@ -11,7 +11,8 @@ describe("palindrome checker", () => {
     ["mom", true],
     ["wow", true],
     ["RaCeCaR", true],
-    ["KAYAk", true]
+    ["KAYAk", true],
+    ["Was It A Rat I Saw", true]
   ])("should be able to detect that a %s is a palindrome", (word, expected) => {
     expect(palindromeChecker.isAPalindrome(word)).toBe(expected);
   });
