@@ -5,4 +5,9 @@ describe('palindrome checker', () => {
     const palindromeChecker = new PalindromeChecker()
     expect(palindromeChecker.isAPalindrome(input)).toBe(expected)
   })
+  
+  test('should be able to detect that a string is not a palindrome', () => {
+    const palindromeChecker = new PalindromeChecker()
+    expect(palindromeChecker.isAPalindrome('bill')).toBe(false)
+  })
 })
