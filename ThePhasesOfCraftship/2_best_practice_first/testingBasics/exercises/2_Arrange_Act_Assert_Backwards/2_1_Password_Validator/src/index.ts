@@ -10,6 +10,11 @@ export default class PasswordValidator {
       return {
         success: true,
       };
+    } else {
+      return {
+        success: false,
+        error: ['password is too short']
+      }
     }
   }
 }
