@@ -10,3 +10,14 @@ KNOWINGS:
 
 DOINGS:
 - returns an object that contains a boolean and errors key if criteria not met
+
+
+ARCHITECTURE:
+- ideally the input is a string that can contain any character (letter, digit, space, special character, whitespace character)
+- if input !== string OR the acceptance criteria not met return an object with errors key
+
+OBJECT SHAPE:
+{
+  success: true | false,
+  error?: [ERROR.TOO_SHORT, ERROR.TOO_LONG, ERROR.NO_DIGIT, ERROR.NO_UPPERCASE, ERROR.INVALID_INPUT]
+}
