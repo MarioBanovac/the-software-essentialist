@@ -26,4 +26,8 @@ describe("password validator", () => {
       expect(passwordValidator.containsDigit("pass1")).toBeTruthy();
     }
   );
+  
+  test('knows when the password does not contain at least one digit', () => { 
+    expect(passwordValidator.containsDigit('password$')).toBeFalsy()
+   })
 });
