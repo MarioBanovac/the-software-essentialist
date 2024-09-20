@@ -49,14 +49,11 @@ describe("password validator", () => {
   );
 
   test.each([
-    ["pass", ["TOO_SHORT", "NO_DIGIT", "NO_UPPERCASE"]],
-    ["1pas", ["TOO_SHORT", "NO_UPPERCASE"]],
-    ["Password$", ["NO_DIGIT"]],
-  ])("knows when the password: %s is not valid", (userInput, errors) => {
-    expect(passwordValidator.isValid(userInput)).toEqual({
-      success: false,
-      errors,
-    });
+    ["pass", { success: false, errors: ["TOO_SHORT", "NO_DIGIT", "NO_UPPERCASE"]}],
+    ["1pas", { success: false, errors: ["TOO_SHORT", "NO_UPPERCASE"]}],
+    ["Password", { success: false, errors: ["NO_DIGIT"]}]
+  ])("knows when the password: %s is not valid", (userInput, expected) => {
+    expect(passwordValidator.isValid(userInput)).toEqual(expected);
   });
 
   test.each([
