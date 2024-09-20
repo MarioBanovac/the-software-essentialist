@@ -22,13 +22,13 @@ describe("password validator", () => {
 
   test.each(["pass1", "1pass", "pass1word$"])(
     "knows that the password: %s contains a digit",
-    () => {
-      expect(passwordValidator.containsDigit("pass1")).toBeTruthy();
+    (userInput) => {
+      expect(passwordValidator.containsDigit(userInput)).toBeTruthy();
     }
   );
   
-  test.each(["password", "$pass_", "qwertz"])('knows that the password: %s does not contain a digit', () => { 
-    expect(passwordValidator.containsDigit('password$')).toBeFalsy()
+  test.each(["password", "$pass_", "qwertz"])('knows that the password: %s does not contain a digit', (userInput) => { 
+    expect(passwordValidator.containsDigit(userInput)).toBeFalsy()
    })
    
    test.each(["Password", "Random", "1pasS"])('knows that the password: %s contains an uppercase letter', (userInput) => { 
