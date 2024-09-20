@@ -27,7 +27,7 @@ describe("password validator", () => {
     }
   );
   
-  test('knows when the password does not contain at least one digit', () => { 
+  test.each(["password", "$pass_", "qwertz"])('knows that the password: %s does not contain a digit', () => { 
     expect(passwordValidator.containsDigit('password$')).toBeFalsy()
    })
 });
