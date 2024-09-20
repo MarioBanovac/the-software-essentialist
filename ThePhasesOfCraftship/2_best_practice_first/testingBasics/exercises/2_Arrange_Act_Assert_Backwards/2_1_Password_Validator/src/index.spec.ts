@@ -31,7 +31,7 @@ describe("password validator", () => {
     expect(passwordValidator.containsDigit('password$')).toBeFalsy()
    })
    
-   test('knows when the string contains an uppercase letter', () => { 
-     expect(passwordValidator.containsUppercase('Password')).toBeTruthy()
+   test.each(["Password", "Random", "1pasS"])('knows that the password: %s contains an uppercase letter', (userInput) => { 
+     expect(passwordValidator.containsUppercase(userInput)).toBeTruthy()
     })
 });
