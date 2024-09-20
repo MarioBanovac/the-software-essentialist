@@ -58,11 +58,12 @@ describe("password validator", () => {
       errors,
     });
   });
-  
-  test('knows when the passwor is valid', () => { 
-    expect(passwordValidator.isValid('Password1')).toEqual({
-      success: true,
-      errors: []
-    })
-   })
+
+  test.each([
+    ["Password1", { success: true, errors: [] }],
+    ["1passworD", { success: true, errors: [] }],
+    ["Password$1", { success: true, errors: [] }],
+  ])("knows when the password: %s is valid", (userInput, expected) => {
+    expect(passwordValidator.isValid(userInput)).toEqual(expected);
+  });
 });
