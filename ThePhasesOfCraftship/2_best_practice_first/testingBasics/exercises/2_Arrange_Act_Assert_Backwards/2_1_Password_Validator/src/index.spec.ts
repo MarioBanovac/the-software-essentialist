@@ -26,23 +26,36 @@ describe("password validator", () => {
       expect(passwordValidator.containsDigit(userInput)).toBeTruthy();
     }
   );
-  
-  test.each(["password", "$pass_", "qwertz"])('knows that the password: %s does not contain a digit', (userInput) => { 
-    expect(passwordValidator.containsDigit(userInput)).toBeFalsy()
-   })
-   
-   test.each(["Password", "Random", "1pasS"])('knows that the password: %s contains an uppercase letter', (userInput) => { 
-     expect(passwordValidator.containsUppercase(userInput)).toBeTruthy()
-    })
-    
-    test.each(["password", "random", "1pass"])('knows that the password: %s does not contain an uppercase letter', (userInput) => { 
-      expect(passwordValidator.containsUppercase(userInput)).toBeFalsy()
-     })
-     
-     test('knows when a password is not valid', () => { 
-      expect(passwordValidator.isValid('Password')).toEqual({
-        success: false,
-        errors: ["NO_DIGIT"]
-      })
-      })
+
+  test.each(["password", "$pass_", "qwertz"])(
+    "knows that the password: %s does not contain a digit",
+    (userInput) => {
+      expect(passwordValidator.containsDigit(userInput)).toBeFalsy();
+    }
+  );
+
+  test.each(["Password", "Random", "1pasS"])(
+    "knows that the password: %s contains an uppercase letter",
+    (userInput) => {
+      expect(passwordValidator.containsUppercase(userInput)).toBeTruthy();
+    }
+  );
+
+  test.each(["password", "random", "1pass"])(
+    "knows that the password: %s does not contain an uppercase letter",
+    (userInput) => {
+      expect(passwordValidator.containsUppercase(userInput)).toBeFalsy();
+    }
+  );
+
+  test.each([
+    ["pass", ["TOO_SHORT", "NO_DIGIT", "NO_UPPERCASE"]],
+    ["1pas", ["TOO_SHORT", "NO_UPPERCASE"]],
+    ["Password$", ["NO_DIGIT"]],
+  ])("knows when the password: %s is not valid", (userInput, errors) => {
+    expect(passwordValidator.isValid(userInput)).toEqual({
+      success: false,
+      errors,
+    });
+  });
 });
