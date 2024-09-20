@@ -4,6 +4,10 @@ export default class PasswordValidator {
 
     return isLengthValid;
   }
+  
+  containsDigit(userInput: string) {
+    return /\d/.test(userInput)
+  }
 
   isValid(userInput: string) {
     if (this.hasValidLength(userInput)) {

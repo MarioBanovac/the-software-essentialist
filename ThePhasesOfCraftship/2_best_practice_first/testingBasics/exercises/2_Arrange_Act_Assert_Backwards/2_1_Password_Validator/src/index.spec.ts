@@ -10,6 +10,11 @@ describe('password validator', () => {
     let passwordValidator = new PasswordValidator()
     expect(passwordValidator.hasValidLength(userInput)).toBeFalsy()
   })
+  
+  test('knows when the string contains a digit', () => { 
+    let passwordValidator = new PasswordValidator()
+    expect(passwordValidator.containsDigit('pass1')).toBeTruthy()
+   })
 })
 
 
