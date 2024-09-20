@@ -38,4 +38,11 @@ describe("password validator", () => {
     test.each(["password", "random", "1pass"])('knows that the password: %s does not contain an uppercase letter', (userInput) => { 
       expect(passwordValidator.containsUppercase(userInput)).toBeFalsy()
      })
+     
+     test('knows when a password is not valid', () => { 
+      expect(passwordValidator.isValid('Password')).toEqual({
+        success: false,
+        errors: ["NO_DIGIT"]
+      })
+      })
 });
