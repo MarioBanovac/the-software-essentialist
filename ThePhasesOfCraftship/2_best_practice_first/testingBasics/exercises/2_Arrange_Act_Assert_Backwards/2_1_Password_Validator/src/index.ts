@@ -1,19 +1,19 @@
 export default class PasswordValidator {
-  hasValidLength(userInput: string) {
+  public hasValidLength(userInput: string): boolean {
     const isLengthValid = userInput.length >= 5 && userInput.length <= 15;
 
     return isLengthValid;
   }
 
-  containsDigit(userInput: string) {
+  public containsDigit(userInput: string): boolean {
     return /\d/.test(userInput);
   }
 
-  containsUppercase(userInput: string) {
+  public containsUppercase(userInput: string): boolean {
     return /[A-Z]/.test(userInput);
   }
 
-  isValid(userInput: string) {
+  public isValid(userInput: string) {
     let returnObject: {
       success: null | boolean;
       errors: string[];
