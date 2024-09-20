@@ -30,4 +30,8 @@ describe("password validator", () => {
   test.each(["password", "$pass_", "qwertz"])('knows that the password: %s does not contain a digit', () => { 
     expect(passwordValidator.containsDigit('password$')).toBeFalsy()
    })
+   
+   test('knows when the string contains an uppercase letter', () => { 
+     expect(passwordValidator.containsUppercase('Password')).toBeTruthy()
+    })
 });

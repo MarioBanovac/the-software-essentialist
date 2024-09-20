@@ -8,6 +8,10 @@ export default class PasswordValidator {
   containsDigit(userInput: string) {
     return /\d/.test(userInput)
   }
+  
+  containsUppercase(userInput: string) {
+    return /[A-Z]/.test(userInput)
+  }
 
   isValid(userInput: string) {
     if (this.hasValidLength(userInput)) {
