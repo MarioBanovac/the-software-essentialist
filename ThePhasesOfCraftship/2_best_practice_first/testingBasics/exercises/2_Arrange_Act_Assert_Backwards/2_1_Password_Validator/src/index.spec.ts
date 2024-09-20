@@ -8,9 +8,9 @@ describe('password validator', () => {
     })
   })
   
-  test('knows when the password is not between 5 and 15 characters long', () => {
+  test.each(['pass', 'password12345678'])('knows that the password: %s is not between 5 and 15 characters long', (userInput) => {
     let passwordValidator = new PasswordValidator()
-    expect(passwordValidator.isValid('pass')).toEqual({
+    expect(passwordValidator.isValid(userInput)).toEqual({
       success: false,
       error: ['password is too short']
     })
