@@ -34,7 +34,7 @@ export default class PasswordValidator {
     }
 
     if (!this.hasValidLength(userInput)) {
-      returnObject.errors.push("TOO_SHORT");
+      returnObject.errors.push("INVALID_LENGTH");
     }
 
     if (!this.containsDigit(userInput)) {
