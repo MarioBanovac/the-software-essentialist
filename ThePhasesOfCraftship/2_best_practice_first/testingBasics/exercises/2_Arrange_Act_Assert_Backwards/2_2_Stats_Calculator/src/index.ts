@@ -25,12 +25,17 @@ export default class StatsCalculator {
       maximumValue,
     };
   }
+  
+  private findWholeAverage(input: number[]): number {
+    const rawAverage = input.reduce((acc, cur) => acc + cur, 0) / input.length
+    return parseInt(rawAverage.toString().split('.')[0])
+  }
 
   public getStats(input: number[]): IStats {
     return {
       ...this.getExtremes(input),
       size: input.length,
-      averageValue: 18
+      averageValue: this.findWholeAverage(input)
     };
   }
 }
