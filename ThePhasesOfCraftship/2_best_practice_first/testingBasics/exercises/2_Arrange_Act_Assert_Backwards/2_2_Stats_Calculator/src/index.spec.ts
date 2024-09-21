@@ -20,4 +20,14 @@ describe('stats calculator', () => {
     expect(inputStats).toHaveProperty('maximumValue')
     expect(inputStats.maximumValue).toBe(53)
   })
+  
+  test('knows how to find the number of elements', () => {
+    
+    const statsCalculator = new StatsCalculator()
+    
+    const inputStats = statsCalculator.getStats([2,4,21,-8,53,40])
+    
+    expect(inputStats).toHaveProperty('size')
+    expect(inputStats.size).toBe(6)
+  })
 })
