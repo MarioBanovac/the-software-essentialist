@@ -29,4 +29,11 @@ describe('stats calculator', () => {
     expect(inputStats).toHaveProperty('size')
     expect(inputStats.size).toBe(6)
   })
+  
+  test('knows how to find the average value', () => {
+    inputStats = statsCalculator.getStats([2,4,21,-8,53,40])
+    
+    expect(inputStats).toHaveProperty('averageValue')
+    expect(inputStats.averageValue).toBe(18.667)
+  })
 })
