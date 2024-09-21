@@ -1,7 +1,8 @@
 export default class StatsCalculator {
   public getStats(input: number[]) {
     return {
-      minimumValue: -8
+      minimumValue: -8,
+      maximumValue: 53
     }
   }
 }
