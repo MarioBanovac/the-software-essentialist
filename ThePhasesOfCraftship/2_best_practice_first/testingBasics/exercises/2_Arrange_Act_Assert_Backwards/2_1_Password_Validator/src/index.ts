@@ -15,10 +15,10 @@ export default class PasswordValidator {
 
   public isValid(userInput: string) {
     let returnObject: {
-      success: null | boolean;
+      success: boolean;
       errors: string[];
     } = {
-      success: null,
+      success: false,
       errors: [],
     };
 
