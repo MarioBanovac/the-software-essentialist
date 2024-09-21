@@ -22,4 +22,30 @@ averageValue: 18.667
 }
 
 
+ARCHITECT:
+
+// it will accept arbitrary number of arguments
+statsCalculator.getStats([1,2,3,4,5])
+statsCaluculator.getStats(1,2,3,4,5)
+
+PUBLICLY AVAILABLE METHODS
+getStats
+
+PRIVATE METHODS
+getMaximumValue(...input)
+getMinimumValue(...input)
+getAverageValue(...input)
+
+OUTPUT
+{
+  minimumValue: getMinimumValue(...input),
+  maximumValue: getMaximumValue(...input),
+  size: input.length,
+  average: getAverageValue(...input)
+}
+
+CLARIFY BEFORE YOU VERIFY
+- WE WILL TEST IF THE OUTPUT HAS ALL OF THE PROPERTIES WE WANT
+- WE WILL TEST EACH PROPERTY VALUE
+
 
