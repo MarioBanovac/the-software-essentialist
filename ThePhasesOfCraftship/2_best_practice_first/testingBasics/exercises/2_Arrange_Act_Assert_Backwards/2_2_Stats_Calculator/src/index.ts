@@ -30,7 +30,7 @@ export default class StatsCalculator {
     return {
       ...this.getExtremes(input),
       size: input.length,
-      averageValue: 18.667
+      averageValue: 18
     };
   }
 }

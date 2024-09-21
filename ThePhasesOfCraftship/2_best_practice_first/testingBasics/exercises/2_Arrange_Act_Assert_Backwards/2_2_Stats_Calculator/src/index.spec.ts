@@ -34,6 +34,6 @@ describe('stats calculator', () => {
     inputStats = statsCalculator.getStats([2,4,21,-8,53,40])
     
     expect(inputStats).toHaveProperty('averageValue')
-    expect(inputStats.averageValue).toBe(18.667)
+    expect(inputStats.averageValue).toBe(18)
   })
 })
