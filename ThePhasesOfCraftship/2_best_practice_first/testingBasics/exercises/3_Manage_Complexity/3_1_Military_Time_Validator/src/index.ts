@@ -1,8 +1,7 @@
 export default class MilitaryTimeValidator {
   public isValidRange(time: string): boolean {
     const [startHour, startMinute] = this.extractStartTime(time)
-    const endHour = this.extractEndHour(time)
-    const endMinute = this.extractEndMinute(time)
+    const [endHour, endMinute] = this.extractEndTime(time)
     return this.isValidHour(startHour) && this.isValidHour(endHour) && this.isValidMinute(startMinute) && this.isValidMinute(endMinute)
   }
   
@@ -19,11 +18,8 @@ export default class MilitaryTimeValidator {
     return [parseInt(startTime[0]), parseInt(startTime[1])]
   }
   
-  private extractEndHour(time:string): number {
-    return parseInt(time.split('-')[1].split(':')[0])
-  }
-  
-  private extractEndMinute(time:string): number {
-    return parseInt(time.split('-')[1].split(':')[1])
+  private extractEndTime(time: string): [number, number] {
+    const startTime = time.split('-')[1].split(':')
+    return [parseInt(startTime[0]), parseInt(startTime[1])]
   }
 }
