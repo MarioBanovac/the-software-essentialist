@@ -13,13 +13,7 @@ describe('military time validator', () => {
   test('should know that 00:00 - 23:59 is a valid military time', () => {
     expect(militaryTimeValidator.isValidRange('00:00 - 23:59')).toBeTruthy()
   })
-  test('should know that 25:00 - 01:00 is not a valid military time', () => {
-    expect(militaryTimeValidator.isValidRange('25:00 - 01:00')).toBeFalsy()
-  })
-  test('should know that 10:45 - 27:15 is not a valid military time', () => { 
-    expect(militaryTimeValidator.isValidRange('10:45 - 27:15')).toBeFalsy()
-  })
-  test('should know that 23:60 - 13:00 is not a valid military time', () => { 
-    expect(militaryTimeValidator.isValidRange('23:60 - 13:00')).toBeFalsy()
+  test.each(['25:00 - 01:00', '10:45 - 27:15', '23:60 - 13:00'])('should know that %s is not a valid military time', (time) => {
+    expect(militaryTimeValidator.isValidRange(time)).toBeFalsy()
   })
 })
