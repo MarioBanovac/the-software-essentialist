@@ -3,7 +3,8 @@ export default class MilitaryTimeValidator {
     const startHour = this.extractStartHour(time)
     const startMinute = this.extractStartMinute(time)
     const endHour = this.extractEndHour(time)
-    return startHour >= 0 && startHour < 24 && endHour >= 0 && endHour < 24 && startMinute >=0 && startMinute < 60
+    const endMinute = parseInt(time.split('-')[1].split(':')[1])
+    return startHour >= 0 && startHour < 24 && endHour >= 0 && endHour < 24 && startMinute >=0 && startMinute < 60 && endMinute >=0 && endMinute < 60
   }
   
   private extractStartHour(time: string): number {
