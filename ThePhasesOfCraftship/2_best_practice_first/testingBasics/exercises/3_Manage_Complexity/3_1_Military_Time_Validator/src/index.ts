@@ -4,11 +4,15 @@ export default class MilitaryTimeValidator {
     const startMinute = this.extractStartMinute(time)
     const endHour = this.extractEndHour(time)
     const endMinute = this.extractEndMinute(time)
-    return this.isValidHour(startHour) && this.isValidHour(endHour) && startMinute >=0 && startMinute < 60 && endMinute >=0 && endMinute < 60
+    return this.isValidHour(startHour) && this.isValidHour(endHour) && this.isValidMinute(startMinute) && this.isValidMinute(endMinute)
   }
   
   private isValidHour(hour: number): boolean {
     return hour >=0 && hour < 24
+  }
+  
+  private isValidMinute(minute: number): boolean {
+    return minute >= 0 && minute < 60
   }
   
   private extractStartHour(time: string): number {
