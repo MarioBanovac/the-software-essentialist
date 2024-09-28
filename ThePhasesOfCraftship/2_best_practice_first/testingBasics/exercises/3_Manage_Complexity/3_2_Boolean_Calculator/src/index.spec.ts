@@ -10,4 +10,10 @@ describe('boolean calculator', () => {
     const booleanCalculator = new BooleanCalculator()
     expect(booleanCalculator.calculate("FALSE")).toBe(false)
   })
+  
+  test('knows that "NOT" operator reverts the expression', () => {
+    const booleanCalculator = new BooleanCalculator()
+    expect(booleanCalculator.calculate("NOT FALSE")).toBe(true)
+    expect(booleanCalculator.calculate("NOT TRUE")).toBe(false)
+  })
 })
