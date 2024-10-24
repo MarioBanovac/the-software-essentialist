@@ -1,14 +1,17 @@
-import { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { prisma } from "../database";
 import { isMissingKeys, parseForResponse } from "../utils";
-import { Errors } from "../constants";
+import { ErrorExceptionType } from "../constants";
+import { ErrorHandler } from "../error/errorHandler";
 
-export default function createClassController() {
+export default function createClassController(errorHandler: ErrorHandler) {
+    
+  const router = express.Router()
   
-  const createAClass = async (req: Request, res: Response) => {
+  const createAClass = async (req: Request, res: Response, next:NextFunction) => {
     try {
         if (isMissingKeys(req.body, ['name'])) {
-            return res.status(400).json({ error: Errors.ValidationError, data: undefined, success: false });
+            throw new Error(ErrorExceptionType.ValidationError)
         }
     
         const { name } = req.body;
@@ -21,14 +24,14 @@ export default function createClassController() {
     
         res.status(201).json({ error: undefined, data: parseForResponse(cls), success: true });
     } catch (error) {
-        res.status(500).json({ error: Errors.ServerError, data: undefined, success: false });
+       next(error)
     }
 }
 
-  const enrollStudentToAClass = async (req: Request, res: Response) => {
+  const enrollStudentToAClass = async (req: Request, res: Response, next:NextFunction) => {
     try {
         if (isMissingKeys(req.body, ['studentId', 'classId'])) {
-            return res.status(400).json({ error: Errors.ValidationError, data: undefined, success: false });
+            throw new Error(ErrorExceptionType.ValidationError)
         }
     
         const { studentId, classId } = req.body;
@@ -41,7 +44,7 @@ export default function createClassController() {
         });
     
         if (!student) {
-            return res.status(404).json({ error: Errors.StudentNotFound, data: undefined, success: false });
+            throw new Error(ErrorExceptionType.StudentNotFound)
         }
     
         // check if class exists
@@ -60,11 +63,11 @@ export default function createClassController() {
         });
 
         if (duplicatedClassEnrollment) {
-            return res.status(400).json({ error: Errors.StudentAlreadyEnrolled, data: undefined, success: false });
+            throw new Error(ErrorExceptionType.StudentAlreadyEnrolled)
         }
     
         if (!cls) {
-            return res.status(404).json({ error: Errors.ClassNotFound, data: undefined, success: false });
+            throw new Error(ErrorExceptionType.ClassNotFound)
         }
     
         const classEnrollment = await prisma.classEnrollment.create({
@@ -76,11 +79,19 @@ export default function createClassController() {
     
         res.status(201).json({ error: undefined, data: parseForResponse(classEnrollment), success: true });
     } catch (error) {
-        res.status(500).json({ error: Errors.ServerError, data: undefined, success: false });
+        next(error)
     }
  
 } 
 
-    return { createAClass, enrollStudentToAClass }
+  const setupRoutes = () => {
+    router.post('/classes', createAClass)
+    router.post('/class-enrollment', enrollStudentToAClass)
+  }
+  
+  setupRoutes()
+  router.use(errorHandler)
+
+  return router
   
 }
