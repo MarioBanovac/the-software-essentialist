@@ -1,4 +1,5 @@
 import express from 'express';
+import createStudentService from './services/createStudentService';
 import createStudentController from './controllers/createStudentController';
 import createClassController from './controllers/createClassController';
 import createAssingmentController from './controllers/createAssignmentController';
@@ -9,7 +10,9 @@ app.use(express.json());
 app.use(cors());
 
 
-const studentController = createStudentController(errorHandler)
+const studentService = createStudentService()
+
+const studentController = createStudentController(errorHandler, studentService)
 const classController = createClassController(errorHandler)
 const assingmentController = createAssingmentController(errorHandler)
 

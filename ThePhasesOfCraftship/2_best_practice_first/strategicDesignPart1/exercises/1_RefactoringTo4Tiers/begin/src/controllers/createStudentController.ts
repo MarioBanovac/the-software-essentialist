@@ -3,22 +3,14 @@ import { prisma } from "../database";
 import { parseForResponse, isUUID, isMissingKeys } from "../utils";
 import { ErrorHandler } from "../error/errorHandler";
 import { ErrorExceptionType } from "../constants";
+import { IStudentService } from "../services/createStudentService";
 
-export default function createStudentController (errorHandler: ErrorHandler) {
+export default function createStudentController (errorHandler: ErrorHandler, studentService: IStudentService) {
   const router = express.Router()
   
   const getAllStudents = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const students = await prisma.student.findMany({
-            include: {
-                classes: true,
-                assignments: true,
-                reportCards: true
-            }, 
-            orderBy: {
-                name: 'asc'
-            }
-        });
+        const students = await studentService.getAllStudents()
         res.status(200).json({ error: undefined, data: parseForResponse(students), success: true });
     } catch (error) {
         next(error)
@@ -31,20 +23,8 @@ export default function createStudentController (errorHandler: ErrorHandler) {
         if(!isUUID(id)) {
             throw new Error(ErrorExceptionType.ValidationError)
         }
-        const student = await prisma.student.findUnique({
-            where: {
-                id
-            },
-            include: {
-                classes: true,
-                assignments: true,
-                reportCards: true
-            }
-        });
-    
-        if (!student) {
-            throw new Error(ErrorExceptionType.StudentNotFound)
-        }
+        
+        const student = await studentService.getAStudentById(id)
     
         res.status(200).json({ error: undefined, data: parseForResponse(student), success: true });
     } catch (error) {
@@ -59,26 +39,7 @@ export default function createStudentController (errorHandler: ErrorHandler) {
             throw new Error(ErrorExceptionType.ValidationError)
         }
 
-        // check if student exists
-        const student = await prisma.student.findUnique({
-            where: {
-                id
-            }
-        });
-
-        if (!student) {
-            throw new Error(ErrorExceptionType.StudentNotFound)
-        }
-
-        const studentAssignments = await prisma.studentAssignment.findMany({
-            where: {
-                studentId: id,
-                status: 'submitted'
-            },
-            include: {
-                assignment: true
-            },
-        });
+        const studentAssignments = await studentService.getAllStudentSubmittedAssignments(id)
     
         res.status(200).json({ error: undefined, data: parseForResponse(studentAssignments), success: true });
     } catch (error) {
@@ -93,29 +54,7 @@ export default function createStudentController (errorHandler: ErrorHandler) {
             throw new Error(ErrorExceptionType.ValidationError)
         }
 
-        // check if student exists
-        const student = await prisma.student.findUnique({
-            where: {
-                id
-            }
-        });
-
-        if (!student) {
-            throw new Error(ErrorExceptionType.StudentNotFound)
-        }
-
-        const studentAssignments = await prisma.studentAssignment.findMany({
-            where: {
-                studentId: id,
-                status: 'submitted',
-                grade: {
-                    not: null
-                }
-            },
-            include: {
-                assignment: true
-            },
-        });
+        const studentAssignments = await studentService.getAllStudentGrades(id)
     
         res.status(200).json({ error: undefined, data: parseForResponse(studentAssignments), success: true });
     } catch (error) {
@@ -131,11 +70,7 @@ export default function createStudentController (errorHandler: ErrorHandler) {
 
 		const { name } = req.body;
 
-		const student = await prisma.student.create({
-			data: {
-				name
-			}
-		});
+		const student = await studentService.createStudent(name)
 
 		res.status(201).json({ error: undefined, data: parseForResponse(student), success: true });
 	} catch (error) {
