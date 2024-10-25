@@ -5,6 +5,7 @@ import createClassController from './controllers/createClassController';
 import createAssingmentController from './controllers/createAssignmentController';
 import { errorHandler } from './error/errorHandler';
 import createClassService from './services/createClassService';
+import createAssignmentService from './services/createAssingmentService';
 const cors = require('cors');
 const app = express();
 app.use(express.json());
@@ -13,10 +14,11 @@ app.use(cors());
 
 const studentService = createStudentService()
 const classService = createClassService()
+const assingmentService = createAssignmentService()
 
 const studentController = createStudentController(errorHandler, studentService)
 const classController = createClassController(errorHandler, classService)
-const assingmentController = createAssingmentController(errorHandler)
+const assingmentController = createAssingmentController(errorHandler, assingmentService)
 
 app.use(studentController)
 app.use(classController)
