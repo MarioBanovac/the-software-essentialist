@@ -12,8 +12,8 @@ app.use(cors());
 const database = createDatabase(prisma)
 
 const studentService = createStudentService(database)
-const classService = createClassService()
-const assingmentService = createAssignmentService()
+const classService = createClassService(database)
+const assingmentService = createAssignmentService(database)
 
 const studentController = createStudentController(errorHandler, studentService)
 const classController = createClassController(errorHandler, classService)

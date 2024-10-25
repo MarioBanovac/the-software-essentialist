@@ -19,10 +19,24 @@ interface ClassEnrollmentPersistence {
   getEnrollmentByStudentAndClass: (studentId: string, classId: string) => any;
 }
 
+interface AssignmentPersistence {
+  create: (classId: string, title: string) => any;
+  getAllForClass: (classId: string) => any;
+  getById: (id: string) => any;
+}
+
+interface StudentAssignmentPersistence {
+  assignToStudent: (studentId: string, assignmentId: string) => any
+  submit: (assignmentId: string) => any
+  grade: (id: string, grade: string) => any
+}
+
 export interface Database {
   student: StudentPersistence
   class: ClassPersistence;
   classEnrollment: ClassEnrollmentPersistence; 
+  assignment: AssignmentPersistence;
+  studentAssignment: StudentAssignmentPersistence;
 }
 
 export default function createDatabase(prisma: PrismaClient): Database {
@@ -117,6 +131,44 @@ export default function createDatabase(prisma: PrismaClient): Database {
       getEnrollmentByStudentAndClass: async (studentId: string, classId: string) => {
         return await prisma.classEnrollment.findFirst({
           where: { studentId, classId }
+        });
+      }
+    },
+    assignment: {
+      create: async (classId: string, title: string) => {
+        return await prisma.assignment.create({
+          data: { classId, title }
+        });
+      },
+      getAllForClass: async (classId: string) => {
+        return await prisma.assignment.findMany({
+          where: { classId },
+          include: { class: true, studentTasks: true }
+        });
+      },
+      getById: async (id: string) => {
+        return await prisma.assignment.findUnique({
+          where: { id },
+          include: { class: true, studentTasks: true }
+        });
+      }
+    },
+    studentAssignment: {
+      assignToStudent: async (studentId: string, assignmentId: string) => {
+        return await prisma.studentAssignment.create({
+          data: { studentId, assignmentId }
+        });
+      },
+      submit: async (assignmentId: string) => {
+        return await prisma.studentAssignment.update({
+          where: { id: assignmentId },
+          data: { status: "submitted" }
+        });
+      },
+      grade: async (id: string, grade: string) => {
+        return await prisma.studentAssignment.update({
+          where: { id },
+          data: { grade }
         });
       }
     }
