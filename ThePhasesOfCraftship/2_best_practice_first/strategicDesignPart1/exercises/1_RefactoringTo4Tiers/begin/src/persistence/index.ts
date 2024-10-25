@@ -8,8 +8,21 @@ interface StudentPersistence {
   getAllGradesById: (id:string) => any;
 }
 
+interface ClassPersistence {
+  create: (name: string) => any;
+  getAll: () => any;
+  getById: (id: string) => any;
+}
+
+interface ClassEnrollmentPersistence {
+  enrollStudent: (studentId: string, classId: string) => any;
+  getEnrollmentByStudentAndClass: (studentId: string, classId: string) => any;
+}
+
 export interface Database {
   student: StudentPersistence
+  class: ClassPersistence;
+  classEnrollment: ClassEnrollmentPersistence; 
 }
 
 export default function createDatabase(prisma: PrismaClient): Database {
@@ -76,6 +89,35 @@ export default function createDatabase(prisma: PrismaClient): Database {
           },
       });
       return studentAssignments
+      }
+    },
+    class: {
+      create: async (name: string) => {
+        return await prisma.class.create({
+          data: { name }
+        });
+      },
+      getAll: async () => {
+        return await prisma.class.findMany({
+          orderBy: { name: 'asc' }
+        });
+      },
+      getById: async (id: string) => {
+        return await prisma.class.findUnique({
+          where: { id }
+        });
+      }
+    },
+    classEnrollment: {
+      enrollStudent: async (studentId: string, classId: string) => {
+        return await prisma.classEnrollment.create({
+          data: { studentId, classId }
+        });
+      },
+      getEnrollmentByStudentAndClass: async (studentId: string, classId: string) => {
+        return await prisma.classEnrollment.findFirst({
+          where: { studentId, classId }
+        });
       }
     }
   }
