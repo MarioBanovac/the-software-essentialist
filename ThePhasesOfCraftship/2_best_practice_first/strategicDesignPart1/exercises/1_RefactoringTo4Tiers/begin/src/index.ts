@@ -1,11 +1,7 @@
 import express from 'express';
-import createStudentService from './services/createStudentService';
-import createStudentController from './controllers/createStudentController';
-import createClassController from './controllers/createClassController';
-import createAssingmentController from './controllers/createAssignmentController';
+import { createStudentService, createClassService, createAssignmentService } from './services';
+import { createStudentController, createClassController, createAssingmentController } from './controllers';
 import { errorHandler } from './error/errorHandler';
-import createClassService from './services/createClassService';
-import createAssignmentService from './services/createAssingmentService';
 const cors = require('cors');
 const app = express();
 app.use(express.json());
