@@ -53,9 +53,9 @@ export default function createStudentController (errorHandler: ErrorHandler, stu
             throw new Error(ErrorExceptionType.ValidationError)
         }
 
-        const studentAssignments = await studentService.getAllStudentGrades(id)
+        const studentGrades = await studentService.getAllStudentGrades(id)
     
-        res.status(200).json({ error: undefined, data: parseForResponse(studentAssignments), success: true });
+        res.status(200).json({ error: undefined, data: parseForResponse(studentGrades), success: true });
     } catch (error) {
         next(error)
     }

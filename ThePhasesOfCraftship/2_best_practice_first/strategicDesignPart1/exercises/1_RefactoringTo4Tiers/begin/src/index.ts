@@ -2,13 +2,16 @@ import express from 'express';
 import { createStudentService, createClassService, createAssignmentService } from './services';
 import { createStudentController, createClassController, createAssingmentController } from './controllers';
 import { errorHandler } from './error/errorHandler';
+import createDatabase from './persistence';
+import { prisma } from './database';
 const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+const database = createDatabase(prisma)
 
-const studentService = createStudentService()
+const studentService = createStudentService(database)
 const classService = createClassService()
 const assingmentService = createAssignmentService()
 
