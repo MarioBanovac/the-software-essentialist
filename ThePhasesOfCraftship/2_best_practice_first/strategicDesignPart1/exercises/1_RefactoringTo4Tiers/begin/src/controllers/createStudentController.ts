@@ -1,5 +1,4 @@
 import express,  { NextFunction, Request, Response } from "express";
-import { prisma } from "../database";
 import { parseForResponse, isUUID, isMissingKeys } from "../utils";
 import { ErrorHandler } from "../error/errorHandler";
 import { ErrorExceptionType } from "../constants";
