@@ -24,19 +24,6 @@ export default function createAssignmentController(
     }
   };
 
-  const getAllAssignmentsForAClass = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      if (!isUUID(id)) {
-        throw new Error(ErrorExceptionType.ValidationError);
-      }
-
-      const assignments = await assignmentService.getAssignmentsByClassId(id);
-      res.status(200).json({ error: undefined, data: parseForResponse(assignments), success: true });
-    } catch (error) {
-      next(error);
-    }
-  };
 
   const getAnAssignmentById = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -104,7 +91,6 @@ export default function createAssignmentController(
     router.post("/student-assignments/submit", submit);
     router.post("/student-assignments/grade", grade);
     router.get("/assignments/:id", getAnAssignmentById);
-    router.get("/classes/:id/assignments", getAllAssignmentsForAClass);
   };
 
   setupRoutes();
