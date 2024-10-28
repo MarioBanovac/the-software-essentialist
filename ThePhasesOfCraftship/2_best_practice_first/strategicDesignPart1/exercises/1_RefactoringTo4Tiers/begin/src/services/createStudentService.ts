@@ -1,8 +1,9 @@
 import { Database } from "../persistence"
 import { ErrorExceptionType } from "../constants"
+import { CreateStudentDto } from "../dto/CreateStudentDto"
 
 export interface IStudentService {
-  createStudent: (name: string) => any
+  createStudent: (dto: CreateStudentDto) => any
   getAllStudents: () => any
   getAStudentById: (id: string) => any
   getAllStudentSubmittedAssignments: (id: string) => any
@@ -10,8 +11,8 @@ export interface IStudentService {
 }
 
 export default function createStudentService(database: Database): IStudentService {
-  const createStudent = async(name: string) => {
-    const student = await database.student.create(name)
+  const createStudent = async(dto: CreateStudentDto) => { 
+    const student = await database.student.create(dto.name)
     return student
   }
   

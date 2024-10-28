@@ -1,8 +1,9 @@
 import express,  { NextFunction, Request, Response } from "express";
-import { parseForResponse, isUUID, isMissingKeys } from "../utils";
+import { parseForResponse, isUUID } from "../utils";
 import { ErrorHandler } from "../error/errorHandler";
 import { ErrorExceptionType } from "../constants";
 import { IStudentService } from "../services/createStudentService";
+import createStudentDtoFromRequest from "../dto/CreateStudentDto";
 
 export default function createStudentController (errorHandler: ErrorHandler, studentService: IStudentService) {
   const router = express.Router()
@@ -62,14 +63,10 @@ export default function createStudentController (errorHandler: ErrorHandler, stu
 }
  
   const createAStudent = async (req: Request, res: Response, next:NextFunction) => {
-	try {
-		if (isMissingKeys(req.body, ['name'])) {
-			throw new Error(ErrorExceptionType.ValidationError)
-		}
+	try {    
+    const dto = createStudentDtoFromRequest(req.body)
 
-		const { name } = req.body;
-
-		const student = await studentService.createStudent(name)
+		const student = await studentService.createStudent(dto)
 
 		res.status(201).json({ error: undefined, data: parseForResponse(student), success: true });
 	} catch (error) {
