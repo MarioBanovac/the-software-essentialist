@@ -1,11 +1,12 @@
 import { Database } from "../persistence"
 import { ErrorExceptionType } from "../constants"
 import { CreateStudentDto } from "../dto/CreateStudentDto"
+import { GetStudentByIdDto } from "../dto/GetStudentByIdDto"
 
 export interface IStudentService {
   createStudent: (dto: CreateStudentDto) => any
   getAllStudents: () => any
-  getAStudentById: (id: string) => any
+  getAStudentById: (dto: GetStudentByIdDto) => any
   getAllStudentSubmittedAssignments: (id: string) => any
   getAllStudentGrades: (id: string) => any
 }
@@ -21,8 +22,8 @@ export default function createStudentService(database: Database): IStudentServic
     return students
   }
   
-  const getAStudentById = async (id: string) => {
-    const student = await database.student.getById(id)
+  const getAStudentById = async (dto: GetStudentByIdDto) => {
+    const student = await database.student.getById(dto.id)
 
   if (!student) {
       throw new Error(ErrorExceptionType.StudentNotFound)

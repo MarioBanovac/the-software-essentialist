@@ -4,6 +4,7 @@ import { ErrorHandler } from "../error/errorHandler";
 import { ErrorExceptionType } from "../constants";
 import { IStudentService } from "../services/createStudentService";
 import createStudentDtoFromRequest from "../dto/CreateStudentDto";
+import getStudentByIdDtoFromRequest from "../dto/GetStudentByIdDto";
 
 export default function createStudentController (errorHandler: ErrorHandler, studentService: IStudentService) {
   const router = express.Router()
@@ -19,13 +20,8 @@ export default function createStudentController (errorHandler: ErrorHandler, stu
   
   const getAStudentById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { id } = req.params;
-        if(!isUUID(id)) {
-            throw new Error(ErrorExceptionType.ValidationError)
-        }
-        
-        const student = await studentService.getAStudentById(id)
-    
+      const dto = getStudentByIdDtoFromRequest(req.params)
+        const student = await studentService.getAStudentById(dto)
         res.status(200).json({ error: undefined, data: parseForResponse(student), success: true });
     } catch (error) {
         next(error)
