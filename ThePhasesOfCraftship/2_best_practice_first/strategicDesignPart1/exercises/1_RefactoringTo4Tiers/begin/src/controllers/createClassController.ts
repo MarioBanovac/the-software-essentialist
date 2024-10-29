@@ -23,11 +23,6 @@ export default function createClassController(
 
   const enrollStudentToAClass = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // if (isMissingKeys(req.body, ["studentId", "classId"])) {
-      //   throw new Error(ErrorExceptionType.ValidationError);
-      // }
-
-      // const { studentId, classId } = req.body;
       const dto = createClassRequestDto(req.body)
 
       const classEnrollment = await classService.enrollStudentToClass(dto);
