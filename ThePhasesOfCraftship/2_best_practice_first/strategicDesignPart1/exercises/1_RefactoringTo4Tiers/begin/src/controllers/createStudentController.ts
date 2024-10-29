@@ -42,12 +42,9 @@ export default function createStudentController (errorHandler: ErrorHandler, stu
 
   const getAllStudentGrades = async (req: Request, res: Response, next:NextFunction) => {
     try {
-        const { id } = req.params;
-        if(!isUUID(id)) {
-            throw new Error(ErrorExceptionType.ValidationError)
-        }
+      const dto = getStudentByIdDtoFromRequest(req.params)
 
-        const studentGrades = await studentService.getAllStudentGrades(id)
+        const studentGrades = await studentService.getAllStudentGrades(dto)
     
         res.status(200).json({ error: undefined, data: parseForResponse(studentGrades), success: true });
     } catch (error) {

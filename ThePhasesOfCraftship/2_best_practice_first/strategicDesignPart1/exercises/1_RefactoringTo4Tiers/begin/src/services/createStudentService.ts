@@ -8,7 +8,7 @@ export interface IStudentService {
   getAllStudents: () => any
   getAStudentById: (dto: GetStudentByIdDto) => any
   getAllStudentSubmittedAssignments: (dto: GetStudentByIdDto) => any
-  getAllStudentGrades: (id: string) => any
+  getAllStudentGrades: (dto: GetStudentByIdDto) => any
 }
 
 export default function createStudentService(database: Database): IStudentService {
@@ -45,14 +45,14 @@ export default function createStudentService(database: Database): IStudentServic
   return studentAssignments
   }
   
-  const getAllStudentGrades = async (id:string) => {
-    const student = await database.student.getById(id)
+  const getAllStudentGrades = async (dto: GetStudentByIdDto) => {
+    const student = await database.student.getById(dto.id)
 
   if (!student) {
       throw new Error(ErrorExceptionType.StudentNotFound)
   }
 
-  const studentGrades = await database.student.getAllGradesById(id)
+  const studentGrades = await database.student.getAllGradesById(dto.id)
   
   return studentGrades
   }
