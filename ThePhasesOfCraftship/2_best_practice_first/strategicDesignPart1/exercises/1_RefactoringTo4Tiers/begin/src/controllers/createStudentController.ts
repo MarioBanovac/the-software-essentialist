@@ -2,7 +2,7 @@ import express,  { NextFunction, Request, Response } from "express";
 import { parseForResponse } from "../utils";
 import { ErrorHandler } from "../error/errorHandler";
 import { IStudentService } from "../services/createStudentService";
-import createStudentRequestDto from "../dto/CreateStudentDto";
+import createStudentRequestDto from "../dto/StudentRequestDto";
 
 export default function createStudentController (errorHandler: ErrorHandler, studentService: IStudentService) {
   const router = express.Router()

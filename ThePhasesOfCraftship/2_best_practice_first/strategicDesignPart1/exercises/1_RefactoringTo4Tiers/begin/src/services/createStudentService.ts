@@ -1,6 +1,6 @@
 import { Database } from "../persistence"
 import { ErrorExceptionType } from "../constants"
-import { StudentRequestDto } from "../dto/CreateStudentDto"
+import { StudentRequestDto } from "../dto/StudentRequestDto"
 
 export interface IStudentService {
   createStudent: (dto: StudentRequestDto) => any
