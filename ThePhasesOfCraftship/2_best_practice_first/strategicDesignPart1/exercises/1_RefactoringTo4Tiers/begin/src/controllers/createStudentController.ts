@@ -30,12 +30,9 @@ export default function createStudentController (errorHandler: ErrorHandler, stu
 
   const getAllStudentSubmittedAssignments =  async (req: Request, res: Response, next:NextFunction) => {
     try {
-        const { id } = req.params;
-        if(!isUUID(id)) {
-            throw new Error(ErrorExceptionType.ValidationError)
-        }
+      const dto = getStudentByIdDtoFromRequest(req.params)
 
-        const studentAssignments = await studentService.getAllStudentSubmittedAssignments(id)
+        const studentAssignments = await studentService.getAllStudentSubmittedAssignments(dto)
     
         res.status(200).json({ error: undefined, data: parseForResponse(studentAssignments), success: true });
     } catch (error) {
