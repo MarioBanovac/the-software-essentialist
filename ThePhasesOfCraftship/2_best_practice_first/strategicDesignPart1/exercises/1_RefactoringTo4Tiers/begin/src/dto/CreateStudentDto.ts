@@ -1,18 +1,40 @@
-import { isMissingKeys } from "../utils"
+import { isUUID } from "../utils"
 import { ErrorExceptionType } from "../constants"
 
-export type CreateStudentDto = {
-  name: string
+export type StudentRequestDto = {
+  name?: string
+  id?: string
 }
 
-export default function createStudentDtoFromRequest (body: unknown) {
-  if(!body || typeof body !== 'object' ||  isMissingKeys(body, ['name'])) {
+export default function createStudentRequestDto (data: unknown) {
+  if(!data || typeof data !== 'object') {
     throw new Error(ErrorExceptionType.ValidationError)
   }
   
-  const { name } = body as {name: string}
+  const {name, id} = data as Partial<StudentRequestDto>
+  
+  // check if both keys are empty
+  if(name === undefined && id === undefined) {
+    throw new Error(ErrorExceptionType.ValidationError)
+  }
+  
+  // validate only if it exists
+  if(name !== undefined) {
+    if(typeof name !== 'string') {
+      throw new Error(ErrorExceptionType.ValidationError)
+    }
+  }
+  
+  // validate only if it exists
+  if(id !== undefined) {
+    if(!isUUID(id) || typeof id !== 'string') {
+      throw new Error(ErrorExceptionType.ValidationError)
+    }
+  }
+  
   
   return {
-    name
+    name,
+    id
   }
 }

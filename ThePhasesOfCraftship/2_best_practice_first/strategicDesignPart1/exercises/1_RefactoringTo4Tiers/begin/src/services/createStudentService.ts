@@ -1,20 +1,21 @@
 import { Database } from "../persistence"
 import { ErrorExceptionType } from "../constants"
-import { CreateStudentDto } from "../dto/CreateStudentDto"
-import { GetStudentByIdDto } from "../dto/GetStudentByIdDto"
+import { StudentRequestDto } from "../dto/CreateStudentDto"
 
 export interface IStudentService {
-  createStudent: (dto: CreateStudentDto) => any
+  createStudent: (dto: StudentRequestDto) => any
   getAllStudents: () => any
-  getAStudentById: (dto: GetStudentByIdDto) => any
-  getAllStudentSubmittedAssignments: (dto: GetStudentByIdDto) => any
-  getAllStudentGrades: (dto: GetStudentByIdDto) => any
+  getAStudentById: (dto: StudentRequestDto) => any
+  getAllStudentSubmittedAssignments: (dto: StudentRequestDto) => any
+  getAllStudentGrades: (dto: StudentRequestDto) => any
 }
 
 export default function createStudentService(database: Database): IStudentService {
-  const createStudent = async(dto: CreateStudentDto) => { 
-    const student = await database.student.create(dto.name)
-    return student
+  const createStudent = async(dto: StudentRequestDto) => { 
+    if(dto.name) {
+      const student = await database.student.create(dto.name)
+      return student
+    }
   }
   
   const getAllStudents = async () => {
@@ -22,8 +23,11 @@ export default function createStudentService(database: Database): IStudentServic
     return students
   }
   
-  const getAStudentById = async (dto: GetStudentByIdDto) => {
-    const student = await database.student.getById(dto.id)
+  const getAStudentById = async (dto: StudentRequestDto) => {
+    let student = undefined
+    if(dto.id) {
+      student = await database.student.getById(dto.id)
+    }
 
   if (!student) {
       throw new Error(ErrorExceptionType.StudentNotFound)
@@ -32,27 +36,39 @@ export default function createStudentService(database: Database): IStudentServic
   return student
   }
   
-  const getAllStudentSubmittedAssignments = async (dto: GetStudentByIdDto) => {
+  const getAllStudentSubmittedAssignments = async (dto: StudentRequestDto) => {
      // check if student exists
-     const student = await database.student.getById(dto.id)
+     let student = undefined
+     if(dto.id) {
+       student = await database.student.getById(dto.id)
+     }
 
   if (!student) {
       throw new Error(ErrorExceptionType.StudentNotFound)
   }
 
-  const studentAssignments = await database.student.getAllSubmittedAssignmentsById(dto.id)
+  let studentAssignments = undefined
+  if(dto.id) {
+    studentAssignments = await database.student.getAllSubmittedAssignmentsById(dto.id)
+  }
   
   return studentAssignments
   }
   
-  const getAllStudentGrades = async (dto: GetStudentByIdDto) => {
-    const student = await database.student.getById(dto.id)
+  const getAllStudentGrades = async (dto: StudentRequestDto) => {
+    let student = undefined
+    if(dto.id) {
+      student = await database.student.getById(dto.id)
+    }
 
   if (!student) {
       throw new Error(ErrorExceptionType.StudentNotFound)
   }
 
-  const studentGrades = await database.student.getAllGradesById(dto.id)
+  let studentGrades = undefined
+  if(dto.id) {
+    studentGrades = await database.student.getAllGradesById(dto.id)
+  }
   
   return studentGrades
   }
