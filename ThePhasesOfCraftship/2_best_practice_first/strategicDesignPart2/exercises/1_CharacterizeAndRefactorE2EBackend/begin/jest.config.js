@@ -3,7 +3,7 @@ module.exports = {
     "^.+\\.ts?$": "ts-jest",
   },
   testEnvironment: "node",
-  testRegex: "./tests/.*\\.(test|spec)?\\.(ts|ts)$",
+  testMatch: ["**/?(*.)+(spec|test).ts"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   roots: ["<rootDir>/tests"],
 };
