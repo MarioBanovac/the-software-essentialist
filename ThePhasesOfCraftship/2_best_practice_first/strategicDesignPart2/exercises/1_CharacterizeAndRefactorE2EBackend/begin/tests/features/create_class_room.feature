@@ -1,4 +1,4 @@
-ature: Create a class room
+Feature: Create a class room
 
     As an administrator
     I want to create a class
