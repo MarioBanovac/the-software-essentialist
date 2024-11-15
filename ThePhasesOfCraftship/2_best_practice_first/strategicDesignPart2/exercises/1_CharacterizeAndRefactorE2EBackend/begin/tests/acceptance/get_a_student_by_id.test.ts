@@ -49,4 +49,19 @@ defineFeature(feature, (test) => {
        expect(response.body.data.classes).toBeDefined()
     });
 });
+
+test('Failed to get a student', ({ given, when, then }) => {
+  given('there is not an existing student', () => {
+
+  });
+
+  when('I request to access the student details', async () => {
+    response = await request(app).get(`/students/${Math.random()}`)
+  });
+
+  then('I should not recieve the student details', () => {
+    expect(response.status).toBe(400)
+    expect(response.body.error).toBe('ValidationError')
+  });
+});
 })

@@ -8,3 +8,8 @@ Feature: Get a student by id
         Given there is an existing student
         When I request to access the student details
         Then I should recieve the student details
+
+    Scenario: Failed to get a student
+        Given there is not an existing student
+        When I request to access the student details
+        Then I should not recieve the student details
