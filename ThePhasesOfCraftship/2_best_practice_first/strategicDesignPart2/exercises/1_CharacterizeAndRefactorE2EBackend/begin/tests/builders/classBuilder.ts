@@ -1,6 +1,12 @@
+import { Class } from '@prisma/client'
 import { prisma } from '../../src/database'
 
-export default function classBuilder () {
+interface IClassBuilder {
+  withName: (name:string) => IClassBuilder
+  build: () => Promise<Class> 
+}
+
+export default function classBuilder (): IClassBuilder {
   const state = {
     name: ''
   } 
