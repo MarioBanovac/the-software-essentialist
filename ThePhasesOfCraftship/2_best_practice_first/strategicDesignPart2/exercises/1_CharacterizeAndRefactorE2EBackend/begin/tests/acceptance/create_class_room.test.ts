@@ -40,21 +40,22 @@ defineFeature(feature, (test) => {
        expect(response.status).toBe(201)
        expect(response.body.success).toBeTruthy()
     });
-    
-    test('Fail to create a class room', ({ given, when, then }) => {
-      given('I want to create a class room without name', () => {
+})
 
-      });
+test('Fail to create a class room', ({ given, when, then }) => {
+  given('I want to create a class room without name', () => {
 
-      when('I request to create a class room', async() => {
-        response = await request(app).post('/classes').send({})
-      });
-
-      then('the class room should not be created', () => {
-        expect(response.status).toBe(400)
-        expect(response.body.error).toBe('ValidationError')
-        expect(response.body.success).toBeFalsy()
-      });
   });
-})})
+
+  when('I request to create a class room', async() => {
+    response = await request(app).post('/classes').send({})
+  });
+
+  then('the class room should not be created', () => {
+    expect(response.status).toBe(400)
+    expect(response.body.error).toBe('ValidationError')
+    expect(response.body.success).toBeFalsy()
+  });
+});
+})
 
