@@ -8,13 +8,6 @@ import assignmentBuilder from "../builders/assignmentBuilder"
 import { Assignment, Class } from "@prisma/client";
 
 
-// interface IRequestBody {
-//   name?: string
-//   email?: string
-// }
-
-
-
 const feature = loadFeature(path.join(__dirname, "../features/get_all_assignments_by_classId.feature"))
 
 
@@ -39,7 +32,7 @@ defineFeature(feature, (test) => {
        assignment = await assignmentBuilder().fromClassRoom(classRoom).withTitle('First test').build()
     });
 
-    when('I request to get the class assignment', async () => {
+    when('I request to get the class assignments', async () => {
        response = await request(app).get(`/classes/${classRoom.id}/assignments`)
     });
 
@@ -49,4 +42,22 @@ defineFeature(feature, (test) => {
        expect(response.body.data[0].classId).toBe(classRoom.id)
 })
   
-})})
+})
+
+test('Failed to get all assignments for a class', ({ given, when, then }) => {
+  let fakeClassId: number
+  
+  given('I send wrong class id to the request', () => {
+    fakeClassId = Math.random()
+  })
+
+  when('I request to get the class assignments', async () => {
+    response = await request(app).get(`/classes/${fakeClassId}/assignments`)
+  });
+
+  then('I should get an error', () => {
+   expect(response.body.error).toBe('ValidationError')
+   expect(response.status).toBe(400)
+  });
+});
+})
