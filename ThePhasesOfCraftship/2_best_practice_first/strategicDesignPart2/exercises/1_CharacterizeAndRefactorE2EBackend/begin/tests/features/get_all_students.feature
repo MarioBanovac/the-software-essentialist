@@ -8,4 +8,9 @@ Feature: Get all students
         Given there are total of three existing students
         When I request to get all students
         Then I should get all existing students
+        
+    Scenario: Failed get all students
+        Given that the database is unavailable
+        When I request to get all students
+        Then I should get error
     
