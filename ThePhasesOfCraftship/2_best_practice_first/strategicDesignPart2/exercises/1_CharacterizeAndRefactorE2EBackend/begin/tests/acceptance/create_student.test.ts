@@ -6,8 +6,8 @@ import { resetDatabase } from "../fixtures/reset"
 
 
 interface IRequestBody {
-  name: string
-  email: string
+  name?: string
+  email?: string
 }
 
 
@@ -21,7 +21,7 @@ defineFeature(feature, (test) => {
   
   beforeEach(async() => {
     await resetDatabase()
-    requestBody = {} as IRequestBody
+    requestBody = {} 
     response = {}
   })
   
@@ -44,20 +44,23 @@ defineFeature(feature, (test) => {
     });
 });
 
-// test('Fail to create a class room', ({ given, when, then }) => {
-//   given('I want to create a class room without name', () => {
+test('Fail to create a student', ({ given, when, then }) => {
+  given('I want to create a student without a name', () => {
+     requestBody = {
+      name: 'John'
+     }
+  });
 
-//   });
+  when('I request to create a student', async () => {
+    response = await request(app).post('/students').send(requestBody)
+  });
 
-//   when('I request to create a class room', async() => {
-//     response = await request(app).post('/classes').send({})
-//   });
+  then('the student should not be created', () => {
+    expect(response.status).toBe(400)
+    expect(response.body.success).toBeFalsy()
+    expect(response.body.error).toBe('ValidationError')
+  });
+});
 
-//   then('the class room should not be created', () => {
-//     expect(response.status).toBe(400)
-//     expect(response.body.error).toBe('ValidationError')
-//     expect(response.body.success).toBeFalsy()
-//   });
-// });
 })
 
