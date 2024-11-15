@@ -9,3 +9,9 @@ Feature: Create assignment
         And when I want to create an assignment for it
         When I request to create an assignment
         Then the assignment should be created
+        
+    Scenario: Failed to create an assignment
+        Given I have an existing class
+        And when I want to create an assignment without a class id for it
+        When I request to create an assignment
+        Then the assignment should not be created

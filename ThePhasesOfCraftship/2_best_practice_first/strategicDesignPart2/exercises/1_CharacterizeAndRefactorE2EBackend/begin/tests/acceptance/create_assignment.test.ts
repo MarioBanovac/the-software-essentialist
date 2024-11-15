@@ -49,4 +49,25 @@ defineFeature(feature, (test) => {
         expect(response.body.success).toBeTruthy()
       });
   });
+  test('Failed to create an assignment', ({ given, and, when, then }) => {
+    given('I have an existing class', async () => {
+      cls = await classBuilder().withName('Math').build()
+    });
+
+    and('when I want to create an assignment without a class id for it', () => {       
+      requestBody = {
+        title: 'Math assignment'
+       }
+    });
+
+    when('I request to create an assignment', async () => {
+      response = await request(app).post('/assignments').send(requestBody)
+    });
+
+    then('the assignment should not be created', () => {
+        expect(response.status).toBe(400)
+        expect(response.body.success).toBeFalsy()
+        expect(response.body.error).toBe('ValidationError')
+    });
+});
 })
