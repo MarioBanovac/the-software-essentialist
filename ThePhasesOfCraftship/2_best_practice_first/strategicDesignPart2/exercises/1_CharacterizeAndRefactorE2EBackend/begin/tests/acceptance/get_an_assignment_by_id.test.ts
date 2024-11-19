@@ -18,6 +18,7 @@ defineFeature(feature, (test) => {
   
   beforeEach(async() => {
     await resetDatabase()
+    response = {}
   })
   
   test('Successfully get an assignment', ({ given, and, when, then }) => {
@@ -38,5 +39,22 @@ defineFeature(feature, (test) => {
         expect(response.body.data.title).toBe('Winter test')
     });
 });
+test('Fail to get an assignment', ({ given, and, when, then }) => {
+    given('there is an existing class', async () => {
+        classRoom = await classBuilder().withName('Math').build()
+    });
+
+    and('there is non-existing assignment for the class', () => {
+    });
+
+    when('I request to get information about the assignment', async () => {
+        response = await request(app).get(`/assignments/${assignment?.id}`)
+    });
+
+    then('I should not receive the information', () => {
+        expect(response.body.error).toBe('AssignmentNotFound')
+    });
+});
+
 })
 

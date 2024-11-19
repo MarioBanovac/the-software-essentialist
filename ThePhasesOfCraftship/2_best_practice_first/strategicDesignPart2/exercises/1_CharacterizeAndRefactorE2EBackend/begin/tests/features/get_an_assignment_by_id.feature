@@ -10,3 +10,9 @@ Feature: Get an assignment by id
         When I request to get information about the assignment
         Then I should receive the information
         
+    Scenario: Fail to get an assignment
+        Given there is an existing class
+        And there is non-existing assignment for the class
+        When I request to get information about the assignment
+        Then I should not receive the information
+        
