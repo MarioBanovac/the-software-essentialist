@@ -9,13 +9,6 @@ import assignmentBuilder from "../builders/assignmentBuilder";
 import classBuilder from "../builders/classBuilder";
 
 
-// interface IRequestBody {
-//   name?: string
-//   email?: string
-// }
-
-
-
 const feature = loadFeature(path.join(__dirname, "../features/assign_student_to_an_assignment.feature"))
 
 
@@ -27,6 +20,7 @@ defineFeature(feature, (test) => {
   beforeEach(async() => {
     await resetDatabase()
     response = {}
+    assignment = undefined
   })
 
   
@@ -58,18 +52,35 @@ defineFeature(feature, (test) => {
     });
 })
 
-// test('Failed to get a student', ({ given, when, then }) => {
-//   given('there is not an existing student', () => {
+test('Failed to assign student to an assignment', ({ given, and, when, then }) => {
 
-//   });
+  given('there is an existing assignment', async () => {
+    // Create an assignment but use an invalid ID in the test
+    assignment = await assignmentBuilder()
+      .fromClassRoom(await classBuilder().withName('Math').build())
+      .withTitle('Semester test')
+      .build();
 
-//   when('I request to access the student details', async () => {
-//     response = await request(app).get(`/students/${Math.random()}`)
-//   });
+  });
 
-//   then('I should not recieve the student details', () => {
-//     expect(response.status).toBe(400)
-//     expect(response.body.error).toBe('ValidationError')
-//   });
-// });
+  and('there is an existing student', async () => {
+    student = await studentBuilder()
+      .withEmail('john@email.com')
+      .withName('John')
+      .build();
+  });
+
+  when('I assign the student to the assignment', async () => {
+    response = await request(app).post('/student-assignments').send({
+      studentId: student.id,
+      assignmentId: assignment?.id + '_invalid' // Use the invalid assignment ID here
+    });
+  });
+
+  then('the student should not be assigned to the assignment', () => {
+    expect(response.status).toBe(404); // Adjust status code as per API's error response
+    expect(response.body.success).toBeFalsy();
+    expect(response.body.error).toBe('AssignmentNotFound') // Ensure an error message is present
+  });
+});
 })
