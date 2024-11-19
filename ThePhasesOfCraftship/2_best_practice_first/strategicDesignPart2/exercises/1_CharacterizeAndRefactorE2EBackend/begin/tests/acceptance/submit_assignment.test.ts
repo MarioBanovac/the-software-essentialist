@@ -58,4 +58,22 @@ defineFeature(feature, (test) => {
       expect(response.body.data.status).toBe('submitted');
     });
   });
+  
+  test("Fail to submit a non-existent assignment", ({ given, when, then }) => {
+    given("there is no valid student assignment", async () => {
+    });
+
+    when("student attempts to submit the assignment", async () => {
+      response = await request(app).post("/student-assignments/submit").send({
+        assignmentId: "non-existent-assignment-id",
+        studentId: "non-existent-student-id",
+      });
+    });
+
+    then("the system should return an error indicating the assignment is not found", () => {
+      expect(response.status).toBe(404);
+      expect(response.body.success).toBeFalsy();
+      expect(response.body.error).toBe("AssignmentNotFound");
+    });
+  });
 });
