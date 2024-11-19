@@ -12,14 +12,12 @@ const feature = loadFeature(path.join(__dirname, "../features/get_all_assignment
 
 
 defineFeature(feature, (test) => {
-  let requestBody: any
   let response: any
   let classRoom: Class
   let assignment: Assignment | undefined
   
   beforeEach(async() => {
     await resetDatabase()
-    requestBody = {}
     response = {}
   })
   
